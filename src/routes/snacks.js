@@ -29,13 +29,14 @@ function createSnacks(req, res){
 }
 function updateSnacks(req, res){
   const id = parseInt(req.params.id);
-  let modifyOneSnack = placeForSnacks.update(id);
-  res.status(200).json(modifyOneSnack);
+  let content = req.body;
+  let updateSnacks = placeForSnacks.update(id, content);
+  res.status(200).json(updateSnacks);
 }
 function deleteSnacks(req, res){
-  const id = parent(req.params.id);
-  let deleteOneSnack = placeForSnacks.update(id);
-  res.status(200).json(deleteOneSnack)
+  const id = parseInt(req.params.id);
+  let deleteSnacks = placeForSnacks.delete(id);
+  res.status(201).json({deleteSnacks})
 }
 
 module.exports = router;
