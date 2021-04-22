@@ -3,7 +3,6 @@
 const express = require('express');
 
 const Places = require('../models/places.js');
-const { delete } = require('./snacks.js');
 const placeForThings = new Places();
 
 const router = express.Router();
@@ -29,22 +28,15 @@ function createPlaces(req, res){
   res.status(201).json(createPlaces);
 }
 function updatePlaces(req, res){
-  if(id){
-    delete this.db.find(record => record.id === id);
-    this.db.find(record => record.id === id) = {
-      id: this.id,
-      record: obj
-    }
-    return obj;
-  }
-  // const id = parseInt(req.params.id);
-  // let modifyOne = placeForThings.update(id);
-  // res.status(200).json(modifyOne);
+  const id = parseInt(req.params.id);
+  let content = req.body;
+  let updatePlaces = placeForThings.update(id, content);
+  res.status(200).json(updatePlaces);
 }
 function deletePlaces(req, res){
-  const id = parent(req.params.id);
-  let deleteOne = placeForThings.update(id);
-  res.status(200).json(deleteOne)
+  const id = parseInt(req.params.id);
+  let deletePlaces = placeForThings.delete(id);
+  res.status(201).json({deletePlaces})
 }
 
 module.exports = router;

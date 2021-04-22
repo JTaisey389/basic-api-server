@@ -4,52 +4,49 @@ const { server } = require('../src/server.js');
 const supertest = require('supertest');
 const createRequest = supertest(server);
 
-describe('**MY PLACES SERVER**', () => {
-  it('should create a new item in the db', async () => {
-    const response = await createRequest.post('/places').send({ places: 'Seattle'})
-      expect(response.status).toBe(201);
-      expect(results.body.record.name).toEqual('Seattle');
-    });
-    
-    it('should retreive an item in the db', async () => {
-    const response = await createRequest.get('/places/1')
+describe('**MY API SERVER**', () => {
+  it('should create a new place in the database', async () => {
+    const response = await createRequest.post('/places').send({ type: 'Seattle'})
+    expect(response.status).toBe(201);
+    expect(response.body.body.record.type).toEqual('Seattle');
+    })
+  
+  it('should retrieve a new place in the database', async () => {
+    const response = await createRequest.post('/places/1');
     expect(response.status).toBe(200);
-  });  
-  it('should retrieve all items from the db', async () => {
+  })
+
+  it('should retrieve all places the db', async () => {
     const response = await createRequest.get('/places')
     expect(response.status).toBe(200);
-  });
-  it('should update an item in the db', async () => {
-    const response = await createRequest.get('/places/1');
-    expect(response.status).toBe(200);
   })
-  it('should remove an item from the db', async () => {
-    const response = await createRequest.get('/places/1');
-    expect(response.status).toBe(200);
-  })
-});
 
-describe('**MY SNACKS SERVER**', () => {
-  it('should create a new item in the db', async () => {
-    const response = await createRequest.post('/snacks').send({ places: 'Ice Cream'})
-      expect(response.status).toBe(201);
-      expect(results.body.record.name).toEqual('Ice Cream');
-    });
-    
-    it('should retreive an item in the db', async () => {
-    const response = await createRequest.get('/snacks/1')
+  it('should create a new snack in the database', async () => {
+    const response = await createRequest.post('/snacks').send({ type: 'Ice Cream'})
+    expect(response.status).toBe(201);
+    expect(response.body.body.record.type).toEqual('Ice Cream');
+  })
+
+  it('should retrieve a new snack in the database', async () => {
+    const response = await createRequest.post('/snacks/1');
     expect(response.status).toBe(200);
-  });  
-  it('should retrieve all items from the db', async () => {
+  });
+
+  it('should retrieve all snacks in the db', async () => {
     const response = await createRequest.get('/snacks')
     expect(response.status).toBe(200);
-  });
-  it('should update an item in the db', async () => {
-    const response = await createRequest.get('/snacks/1');
-    expect(response.status).toBe(200);
   })
-  it('should remove an item from the db', async () => {
-    const response = await createRequest.get('/snacks/1');
-    expect(response.status).toBe(200);
+  it('handles invalid requests', async () => {
+    const response = await createRequest.get('/no-food');
+    expect(response.status).toEqual(404);
   })
-});
+
+  it('handles invalid methods', async () => {
+    const response = await createRequest.patch('/no-thing');
+    expect(response.status).toEqual(404);
+  })
+
+})
+
+  
+
