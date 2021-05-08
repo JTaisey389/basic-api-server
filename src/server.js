@@ -2,19 +2,17 @@
 
 const express = require('express');
 const app = express();
+const logger = require('./middleware/logger');
+const clothesRoute = require('./routes/clothes');
+const foodRoute = require('./routes/food');
 
 const notFound = require('./error-handlers/404.js')
 const errors = require('./error-handlers/500.js')
-
-const logger = require('./middleware/logger');
-const placesRoutes = require('./routes/places');
-const snacksRoutes = require('./routes/snacks.js');
-
 app.use(express.json());
 
 app.use(logger);
-app.use(placesRoutes);
-app.use(snacksRoutes);
+app.use(clothesRoute);
+app.use(foodRoute);
 
 app.use('*', notFound);
 app.use(errors);

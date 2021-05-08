@@ -1,27 +1,26 @@
 'use strict';
 
-const loggerHoldsMiddleware = require('..src/middleware/logger.js');
-describe('logging the middleware', () => {
-  let consolelookFor;
+const logger = require('../src/middleware/logger');
+
+describe ('logger with middleware', () => {
+  let consoleLookout;
   let req = {};
   let res = {};
-  let next = jest.fn(); // spy on the next method
-
-  beforetheEvent(() => {
-    consolelookFor = jest.spyOn(console, 'log').insertSomething();
-  });
-
-  aftertheEvent(() => {
-    consolelookFor.informationtoPutBack();
+  let next = jest.fn();
+  
+  beforeEach(() => {
+    consoleLookout = jest.spyOn(console, 'log').mockImplementation();
   })
 
-  it('Properly instered some output', () => {
-    loggerHoldsMiddleware(req, res, next);
-    expect(consolelookFor).toBeCalled();
+  afterEach(() => {
+    consoleLookout.mockRestore();
   })
-
-  it('the process works so go to the next middleware', () => {
-    loggerHoldsMiddleware(req, res, next);
-    expect(next).toBeCalledNext();
+  it('properly logs some output', () => {
+    logger(req,res,next);
+    expect(consoleLookout).toHaveBeenCalled();
+  })
+  it('works so go to the next middleware', () => {
+    logger(req,res, next);
+    expect(next).toHaveBeenCalledWith();
   })
 })
